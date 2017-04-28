@@ -2,7 +2,6 @@ class Classes(object):
 	classes = None
 
 	def __init__(self):
-		#self.classes = None
 		self.prereqs()
 
 	def prereqs(self):
@@ -31,10 +30,6 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
-
-		for c in classes:
-			print(classes[c])
-       
 
 b = Classes()
 b.prereqs()
