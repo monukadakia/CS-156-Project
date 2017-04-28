@@ -1,15 +1,17 @@
 class Classes(object):
+	classes = None
 
 	def __init__(self):
-		self.classes = None
-		
+		#self.classes = None
+		self.prereqs()
+
 	def prereqs(self):
-		classes = { 
+		self.classes = {
         	"CS46A" : "MATH19",
-        	"CS46B" : "MATH30, CS46A, CS49J",
+        	"CS46B" : "MATH30, CS46A",
         	"CS47" : "CS46B",
         	"CS 100W" : "",
-        	"CS146" : "MATH30, MATH42, CS49J, CS46B",
+        	"CS146" : "MATH30, MATH42, CS46B",
         	"CS147" : "CS47, CMPE102",
         	"CS149" : "CS146, SE146",
         	"CS151" : "MATH42, CS46B, CS49J",
@@ -29,9 +31,13 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
+<<<<<<< HEAD
 		for c in classes:
 			print(classes[c])
        
+=======
+
+
+>>>>>>> 8170ce0f46c54d674cb451be289a49ab9d5da3c5
 b = Classes()
 b.prereqs()
-
