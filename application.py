@@ -57,7 +57,6 @@ class Agent(object):
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
-            print "checking class:",a_class
             for classes in x:
                 if not(classes in self.listOfClasses):
                     b = False
