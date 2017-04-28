@@ -29,7 +29,8 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
-		print classes["CS152"]
+		for c in classes:
+			print(classes[c])
        
 b = Classes()
 b.prereqs()
