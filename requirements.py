@@ -31,13 +31,10 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
-<<<<<<< HEAD
+
 		for c in classes:
 			print(classes[c])
        
-=======
 
-
->>>>>>> 8170ce0f46c54d674cb451be289a49ab9d5da3c5
 b = Classes()
 b.prereqs()
