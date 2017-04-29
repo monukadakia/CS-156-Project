@@ -1,4 +1,5 @@
 import sys
+import math
 
 import requirements
 
@@ -54,19 +55,21 @@ class Agent(object):
         self.listOfClasses = None
         self.classAvailable = None
         self.kb = KB()
+        self.difficultyLevel = 0
 
     def initial_question(self):
         self.user_input = raw_input("Please enter list of latest Math and CS classes separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
         self.listOfClasses = self.user_input.split(",")
         requirement = requirements.Classes()
         grades = 0
-        
+
         for cls in self.listOfClasses:
             gradeInput = raw_input("Grade for %s :" % (cls)).upper().replace(" ", "")
             grades += requirement.grade[gradeInput] * 3
-        
+
         gpa = grades/(len(self.listOfClasses)*3)
-        print "GPA: ", gpa ## Calculate the GPA
+        self.difficultyLevel = math.floor(gpa) * 3
+
 
         if not("CS100W" in self.listOfClasses):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
@@ -77,8 +80,8 @@ class Agent(object):
         else:
             self.taken = True
 
-        
-        
+
+
 
         #for cls in self.listOfClasses:
         #    self.kb.tell(cls)
