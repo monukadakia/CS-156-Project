@@ -39,22 +39,18 @@ class Agent(object):
         self.user_input = None
         self.listOfClasses = None
         self.classAvailable = None
-        self.KB = None
 
     def initial_question(self):
-        self.KB = raw_input("Please enter 'Y' or 'N'. Have you passed MATH19? : ").upper()
-        self.KB += raw_input("Please enter 'Y' or 'N'. Have you passed MATH30? : ").upper()
         self.user_input = raw_input("Please enter List of Class separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
-        self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
-
-        while not(self.wst == "Y" or self.wst == "N"):
-            self.wst = raw_input("Please enter 'Y' or 'N'. Have you passed WST? : ").upper()
-
-        if self.wst == 'Y' or self.wst == 'N':
+        
+        if not("CS100W" in self.user_input.split(",")):
+            self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
+            while not(self.wst == "Y" or self.wst == "N"):
+                self.wst = raw_input("Please enter 'Y' or 'N'. Have you passed WST? : ").upper()
             if self.wst == 'Y':
                 self.taken = True
-
-        print "HELLO: ", self.KB[0]        
+        else:
+            self.taken = True
 
         self.listOfClasses = self.user_input.split(",")
         requirement = requirements.Classes()
@@ -62,16 +58,18 @@ class Agent(object):
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
-            for classes in x:
-                if not(classes in self.listOfClasses):
-                    b = False
-                    break
-            if b:
+            if a_class == "CS100W" and self.taken and not("CS100W" in self.listOfClasses):
                 print "Next sem you can take:",a_class
+            else:
+                for classes in x:
+                    if not(classes in self.listOfClasses):
+                        b = False
+                        break
+                if b and not(a_class in self.listOfClasses):
+                    print "Next sem you can take:",a_class
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
-        print "User has taken MATH19: ", self.KB
 
 
 user = Agent()
