@@ -36,7 +36,7 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
-			
+
 	def grades(self):
 		self.grade = {
 			"A+" : "4.0",
