@@ -77,6 +77,7 @@ class Agent(object):
         #        for xs in x:
         #            self.kb.tell(xs)
         self.addClasses(self.listOfClasses)
+        print self.kb.clauses
 
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
@@ -102,7 +103,8 @@ class Agent(object):
         else:
             for cl in classes:
                 self.kb.tell(cl)
-                self.kb.tell(self.addClasses(requirement.classes[cl].replace(" ", "").split(",")))
+                if cl in requirement.classes:
+                    self.kb.tell(self.addClasses(requirement.classes[cl].replace(" ", "").split(",")))
 
 
 
