@@ -35,7 +35,7 @@ class KB(object):
         self.clauses = []
 
     def tell(self, clause):
-        if not(clause in self.clauses):
+        if not(clause in self.clauses) and not(clause == None):
             self.clauses.append(clause)
 
     def ask(self, clause):
@@ -77,8 +77,7 @@ class Agent(object):
         #        for xs in x:
         #            self.kb.tell(xs)
         self.addClasses(self.listOfClasses)
-        print "KB",self.kb.clauses
-
+        
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
@@ -97,11 +96,12 @@ class Agent(object):
 
     def addClasses(self, classes):
         requirement = requirements.Classes()
-        if len(classes) == 1 and requirement.classes[classes[0]] == None:
+        if len(classes) == 1 and requirement.classes[classes[0]] == "":
             self.kb.tell(classes[0])
             return classes[0]
         else:
             for cl in classes:
+                self.kb.tell(cl)
                 self.kb.tell(self.addClasses(requirement.classes[cl].replace(" ", "").split(",")))
 
 
