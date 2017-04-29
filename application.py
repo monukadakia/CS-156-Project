@@ -57,8 +57,17 @@ class Agent(object):
 
     def initial_question(self):
         self.user_input = raw_input("Please enter list of latest Math and CS classes separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
+        self.listOfClasses = self.user_input.split(",")
+        requirement = requirements.Classes()
+        grades = 0
+        
+        for cls in self.listOfClasses:
+            gradeInput = raw_input("Grade for %s :" % (cls)).upper().replace(" ", "")
+            grades += requirement.grade[gradeInput]
+        
+        gpa = 0 ## Calculate the GPA
 
-        if not("CS100W" in self.user_input.split(",")):
+        if not("CS100W" in self.listOfClasses):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
             while not(self.wst == "Y" or self.wst == "N"):
                 self.wst = raw_input("Please enter 'Y' or 'N'. Have you passed WST? : ").upper()
@@ -67,8 +76,8 @@ class Agent(object):
         else:
             self.taken = True
 
-        self.listOfClasses = self.user_input.split(",")
-        requirement = requirements.Classes()
+        
+        
 
         #for cls in self.listOfClasses:
         #    self.kb.tell(cls)
@@ -82,14 +91,14 @@ class Agent(object):
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
-            if a_class == "CS100W" and self.taken and not("CS100W" in self.listOfClasses):
+            if a_class == "CS100W" and self.taken and not("CS100W" in self.kb.clauses):
                 print "Next sem you can take:",a_class
             else:
                 for classes in x:
-                    if not(classes in self.listOfClasses):
+                    if not(classes in self.kb.clauses):
                         b = False
                         break
-                if b and not(a_class in self.listOfClasses):
+                if b and not(a_class in self.kb.clauses):
                     print "Next sem you can take:",a_class
 
         print "you entered", self.listOfClasses

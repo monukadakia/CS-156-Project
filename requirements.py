@@ -5,6 +5,8 @@ class Classes(object):
 
 	def __init__(self):
 		self.prereqs()
+		self.grades()
+		self.difficulty()
 
 	def prereqs(self):
 		self.classes = {
@@ -55,7 +57,7 @@ class Classes(object):
 			"F" : 0,
 			}
 
-	def prereqs(self):
+	def difficulty(self):
 		self.difficulty = {
 			"MATH19" : 1,
 			"MATH30" : 1,
