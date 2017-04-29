@@ -6,10 +6,6 @@ class Classes(object):
 
 	def prereqs(self):
 		self.classes = {
-			"MATH30" : "MATH19",
-			"MATH31" : "MATH30",
-			"MATH32" : "MATH31",
-			"MATH129A" "MATH31",
         	"CS46A" : "MATH19",
         	"CS46B" : "MATH30, CS46A",
         	"CS47" : "CS46B",
@@ -33,4 +29,4 @@ class Classes(object):
 			"CS185C" : "",
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
-		}
+			}
