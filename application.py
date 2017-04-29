@@ -53,7 +53,7 @@ class Agent(object):
         self.taken = False
         self.user_input = None
         self.listOfClasses = None
-        self.classAvailableToTake = None
+        self.classAvailable = []
         self.kb = KB()
         self.difficultyLevel = 0
 
@@ -104,7 +104,7 @@ class Agent(object):
                         break
                 if b and not(a_class in self.kb.clauses):
                     print "Next sem you can take:",a_class
-                    self.classAvailableToTake.append(a_class)
+                    self.classAvailable.append(a_class)
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
