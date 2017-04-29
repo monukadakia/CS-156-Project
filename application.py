@@ -49,11 +49,9 @@ class Agent(object):
                 self.wst = raw_input("Please enter 'Y' or 'N'. Have you passed WST? : ").upper()
             if self.wst == 'Y':
                 self.taken = True
-<<<<<<< HEAD
-=======
         else:
             self.taken = True
->>>>>>> 4f84e884e45fb6b3d0545877e13b888811757fd2
+
 
         self.listOfClasses = self.user_input.split(",")
         requirement = requirements.Classes()
