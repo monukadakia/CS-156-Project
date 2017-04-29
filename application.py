@@ -63,9 +63,10 @@ class Agent(object):
         
         for cls in self.listOfClasses:
             gradeInput = raw_input("Grade for %s :" % (cls)).upper().replace(" ", "")
-            grades += requirement.grade[gradeInput]
+            grades += requirement.grade[gradeInput] * 3
         
-        gpa = 0 ## Calculate the GPA
+        gpa = grades/(len(self.listOfClasses)*3)
+        print "GPA: ", gpa ## Calculate the GPA
 
         if not("CS100W" in self.listOfClasses):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
