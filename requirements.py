@@ -35,7 +35,6 @@ class Classes(object):
 			"CS166" : "CS146, CS47",
 			"CS174" : "CS46B",
 			"CS175" : "CS47",
-			"CS185C" : "",
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
