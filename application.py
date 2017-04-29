@@ -27,6 +27,20 @@ import requirements
 # print "you entered", listOfClasses
 # print "User has passed WST", taken
 
+class KB(object):
+    """docstring for KB"""
+    
+    def __init__(self):
+        super(KB, self).__init__()
+        self.clauses = []
+
+    def tell(self, clause):
+        if not(clause in self.clauses) and not(clause == None):
+            self.clauses.append(clause)
+
+    def ask(self, clause):
+        return clause in self.clauses
+        
 
 class Agent(object):
     """docstring for Agent."""
@@ -39,9 +53,10 @@ class Agent(object):
         self.user_input = None
         self.listOfClasses = None
         self.classAvailable = None
+        self.kb = KB()
 
     def initial_question(self):
-        self.user_input = raw_input("Please enter List of Class separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
+        self.user_input = raw_input("Please enter list of latest Math and CS classes separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
         
         if not("CS100W" in self.user_input.split(",")):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
@@ -52,10 +67,17 @@ class Agent(object):
         else:
             self.taken = True
 
-
         self.listOfClasses = self.user_input.split(",")
         requirement = requirements.Classes()
 
+        #for cls in self.listOfClasses:
+        #    self.kb.tell(cls)
+        #    for clause in self.kb.clauses:
+        #        x = requirement.classes[clause].replace(" ", "").split(",")
+        #        for xs in x:
+        #            self.kb.tell(xs)
+        self.addClasses(self.listOfClasses)
+        
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
@@ -71,6 +93,17 @@ class Agent(object):
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
+
+    def addClasses(self, classes):
+        requirement = requirements.Classes()
+        if len(classes) == 1 and requirement.classes[classes[0]] == "":
+            self.kb.tell(classes[0])
+            return classes[0]
+        else:
+            for cl in classes:
+                self.kb.tell(cl)
+                self.kb.tell(self.addClasses(requirement.classes[cl].replace(" ", "").split(",")))
+
 
 
 user = Agent()

@@ -7,6 +7,7 @@ class Classes(object):
 
 	def prereqs(self):
 		self.classes = {
+			"MATH19" : "",
 			"MATH30" : "MATH19",
 			"MATH31" : "MATH30",
 			"MATH32" : "MATH31",
