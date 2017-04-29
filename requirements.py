@@ -7,14 +7,11 @@ class Classes(object):
 
 	def prereqs(self):
 		self.classes = {
-<<<<<<< HEAD
-=======
 			"MATH30" : "MATH19",
 			"MATH31" : "MATH30",
 			"MATH32" : "MATH31",
 			"MATH129A" : "MATH31",
 			"MATH42" : "MATH19",
->>>>>>> 8fa323418ede844b8a606fe71938ac5180fdde4f
         	"CS46A" : "MATH19",
         	"CS46B" : "MATH30, CS46A",
         	"CS47" : "CS46B",
@@ -39,9 +36,7 @@ class Classes(object):
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
 			}
-<<<<<<< HEAD
-=======
-
+			
 	def grades(self):
 		self.grade = {
 			"A+" : "4.0",
@@ -59,4 +54,4 @@ class Classes(object):
 			"F" : "0",
 			}
 
->>>>>>> ea1c308054c4e7e32af1d91663ad487244552f57
+
