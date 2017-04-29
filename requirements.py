@@ -29,7 +29,4 @@ class Classes(object):
 			"CS185C" : "",
 			"CS190" : "CS146",
 			"CS190I" : "CS146",
-			}
-
-b = Classes()
-b.prereqs()
+		}
