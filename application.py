@@ -29,7 +29,7 @@ import requirements
 
 class KB(object):
     """docstring for KB"""
-    
+
     def __init__(self):
         super(KB, self).__init__()
         self.clauses = []
@@ -40,7 +40,7 @@ class KB(object):
 
     def ask(self, clause):
         return clause in self.clauses
-        
+
 
 class Agent(object):
     """docstring for Agent."""
@@ -57,7 +57,7 @@ class Agent(object):
 
     def initial_question(self):
         self.user_input = raw_input("Please enter list of latest Math and CS classes separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
-        
+
         if not("CS100W" in self.user_input.split(",")):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
             while not(self.wst == "Y" or self.wst == "N"):
@@ -77,7 +77,7 @@ class Agent(object):
         #        for xs in x:
         #            self.kb.tell(xs)
         self.addClasses(self.listOfClasses)
-        
+
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
@@ -96,7 +96,7 @@ class Agent(object):
 
     def addClasses(self, classes):
         requirement = requirements.Classes()
-        if len(classes) == 1 and requirement.classes[classes[0]] == "":
+        if len(classes) == 1 and not (classes[0] in requirement.classes):
             self.kb.tell(classes[0])
             return classes[0]
         else:
