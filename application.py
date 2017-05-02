@@ -68,8 +68,11 @@ class Agent(object):
         self.addClasses(self.listOfClasses)
         file_data = self.getFileData()
 
+        grades = {}
+
         for cls in self.kb.clauses:
             gradeInput = raw_input("Grade for %s :" % (cls)).upper().replace(" ", "")
+            grades[cls] = gradeInput
             #grade = requirement.grade[gradeInput] * 3
             file_data[cls] += ("%s," % (gradeInput))
 
@@ -98,16 +101,6 @@ class Agent(object):
                     break
             if b and not(a_class in self.kb.clauses):
                 print "Next sem you can take:",a_class
-<<<<<<< HEAD
-            else:
-                for classes in x:
-                    if not(classes in self.kb.clauses):
-                        b = False
-                        break
-                if b and not(a_class in self.kb.clauses):
-                    print "Next sem you can take:",a_class
-                    self.classAvailableToTake.append(a_class)
-=======
                 self.classAvailable.append(a_class)
 
         recommend = {1:"",2:"",3:""}
@@ -115,7 +108,8 @@ class Agent(object):
             recommend[difficulty[cls]] += ("%s," % (cls))
 
         print recommend
->>>>>>> 107e6d3d810aae54e67a32f4e322a3e0d6595601
+
+        self.finalClass(self.classAvailable, grades)
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
@@ -169,6 +163,17 @@ class Agent(object):
             else:
                 difficulty[cls] = 3
         return difficulty
+
+    def finalClasses(self, classAvailable, grades):
+        requirement = requirements.Classes()
+        if(len(classAvailable) <= 3)
+            return classAvailable
+        else   
+            for next_class in classAvailable:
+                clss = requirement[next_class].replace(" ", "").split(",")
+                for cls in clss:
+                    grade = grades[cls]
+
             
 
 
