@@ -58,18 +58,24 @@ class Agent(object):
         self.difficultyLevel = 0
 
     def initial_question(self):
+        #calculateDiff()
+        #self.getFileData()
+
         self.user_input = raw_input("Please enter list of latest Math and CS classes separated by a comma. For eg, CS46A,CS49C : ").replace(" ", "").upper()
         self.listOfClasses = self.user_input.split(",")
         requirement = requirements.Classes()
-        grades = 0
 
-        for cls in self.listOfClasses:
+        self.addClasses(self.listOfClasses)
+        file_data = self.getFileData()
+
+        for cls in self.kb.clauses:
             gradeInput = raw_input("Grade for %s :" % (cls)).upper().replace(" ", "")
-            grades += requirement.grade[gradeInput] * 3
+            #grade = requirement.grade[gradeInput] * 3
+            file_data[cls] += ("%s," % (gradeInput))
 
-        gpa = grades/(len(self.listOfClasses)*3)
-        self.difficultyLevel = math.floor(gpa) * 3
-
+        self.addGradeToFile(file_data)
+        difficulty = self.calculateDiff(file_data)
+        print difficulty
 
         if not("CS100W" in self.listOfClasses):
             self.wst = raw_input("Have you passed WST? Please enter 'Y' or 'N': ").upper()
@@ -80,23 +86,19 @@ class Agent(object):
         else:
             self.taken = True
 
-
-
-
-        #for cls in self.listOfClasses:
-        #    self.kb.tell(cls)
-        #    for clause in self.kb.clauses:
-        #        x = requirement.classes[clause].replace(" ", "").split(",")
-        #        for xs in x:
-        #            self.kb.tell(xs)
-        self.addClasses(self.listOfClasses)
-        print self.kb.clauses
-
+        if self.taken and not("CS100W" in self.kb.clauses):
+                print "Next sem you can take: CS100W"
+                self.classAvailable.append('CS100W')
         for a_class in requirement.classes:
             x = requirement.classes[a_class].replace(" ", "").split(",")
             b = True
-            if a_class == "CS100W" and self.taken and not("CS100W" in self.kb.clauses):
+            for classes in x:
+                if not(classes in self.kb.clauses):
+                    b = False
+                    break
+            if b and not(a_class in self.kb.clauses):
                 print "Next sem you can take:",a_class
+<<<<<<< HEAD
             else:
                 for classes in x:
                     if not(classes in self.kb.clauses):
@@ -105,6 +107,15 @@ class Agent(object):
                 if b and not(a_class in self.kb.clauses):
                     print "Next sem you can take:",a_class
                     self.classAvailableToTake.append(a_class)
+=======
+                self.classAvailable.append(a_class)
+
+        recommend = {1:"",2:"",3:""}
+        for cls in self.classAvailable:
+            recommend[difficulty[cls]] += ("%s," % (cls))
+
+        print recommend
+>>>>>>> 107e6d3d810aae54e67a32f4e322a3e0d6595601
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
@@ -119,6 +130,46 @@ class Agent(object):
                 self.kb.tell(cl)
                 if cl in requirement.classes:
                     self.kb.tell(self.addClasses(requirement.classes[cl].replace(" ", "").split(",")))
+
+    def addGradeToFile(self,file_data):
+        file_object = open("grade.txt", "w")
+        for cls in file_data:
+            temp = cls
+            temp += (":%s\n" % (file_data[cls]))
+            file_object.write(temp)
+
+    def getFileData(self):
+        file_object = open("grade.txt", "r")
+        hashmap = {}
+        for x in file_object.readlines():
+            x = x.strip()
+            name = x[0:x.index(':')]
+            data = ""
+            if not(x[len(x)-1] == ':'):
+                data = x[x.index(':')+1:len(x)]
+            hashmap[name] = data
+        return hashmap
+
+    def calculateDiff(self, file_data):
+        requirement = requirements.Classes()
+        difficulty = {}
+        for cls in file_data:
+            temp = file_data[cls].split(",")
+            temp.remove('')
+            total = 0
+            for grd in temp:
+                if not(grd.strip() == ''):
+                    total += requirement.grade[grd]
+            if len(temp) > 0:
+                total = total / (len(temp))
+            if total >= 3.5:
+                difficulty[cls] = 1
+            elif total >= 3:
+                difficulty[cls] = 2
+            else:
+                difficulty[cls] = 3
+        return difficulty
+            
 
 
 
