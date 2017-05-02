@@ -18,7 +18,6 @@ class Classes(object):
         	"CS46A" : "MATH19",
         	"CS46B" : "MATH30, CS46A",
         	"CS47" : "CS46B",
-        	"CS100W" : "",
         	"CS146" : "MATH30, MATH42, CS46B",
         	"CS147" : "CS47",
         	"CS149" : "CS146",
@@ -54,11 +53,4 @@ class Classes(object):
 			"D" : 1.0,
 			"D-" : 0.7,
 			"F" : 0,
-			}
-
-	def difficulty(self):
-		self.difficulty = {
-			1 : "MATH19, MATH30, CS46A, CS46B, CS190, CS190I",
-			2 : "MATH31, MATH42, CS47, CS147, CS149, CS152, CS154, CS157A, CS158A, CS166, CS174, CS175",
-			3: "MATH32, MATH129A, CS100W, CS146, CS151, CS160, CS156, CS157B, CS158B, CS161"
 			}
