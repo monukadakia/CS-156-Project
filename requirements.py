@@ -6,7 +6,6 @@ class Classes(object):
 	def __init__(self):
 		self.prereqs()
 		self.grades()
-		self.difficulty()
 
 	def prereqs(self):
 		self.classes = {
