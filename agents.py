@@ -36,6 +36,7 @@ class Agent(object):
         self.GEGPA = None
         self.ratio = (0,0)
         self.classAvailable = []
+        self.performance = 0
 
     def start_scheduling(self):
         self.math_req = raw_input("Have you met the math requirement?(Y/N) ").replace(" ", "").upper()
@@ -63,7 +64,7 @@ class Agent(object):
             print "CSGPA", self.CSGPA
             print "GEGPA", self.GEGPA
             print "BRatio", self.ratio
-            self.quit = raw_input("Press q to quit or any other key to continue: ").replace(" ", "").upper().strip()
+            self.quit = raw_input("Press q to quit or enter to continue: ").replace(" ", "").upper().strip()
             if(self.quit == 'Q'):
                 break
             else:
@@ -131,6 +132,9 @@ class Agent(object):
         requirement = requirements.Classes()
         for x in final_schedule:
             grade = raw_input(("What was your grade in %s: " %(x))).replace(" ", "").upper()
+            while not(grade in requirement.grade):
+                grade = raw_input(("What was your grade in %s: " %(x))).replace(" ", "").upper()
+            self.evalPerformance(requirement.grade[grade])
             if not("GE Class" in x):
                 self.CSGPA += requirement.grade[grade]
                 CSCT += 1
@@ -142,6 +146,7 @@ class Agent(object):
             else:
                 self.GEGPA += requirement.grade[grade]
                 GECT += 1
+        print "Agent's performance", self.performance
         if CSCT > 0:
             self.CSGPA = self.CSGPA/CSCT
         if GECT > 0:
@@ -196,6 +201,16 @@ class Agent(object):
                 print "Next sem you can take:",cls
                 self.classAvailable.append(cls)
         print self.classAvailable
+
+    def evalPerformance(self, grade):
+        if(grade >= 3.7):
+            self.performance += 10
+        elif(grade >= 2.7):
+            self.performance += 5
+        elif(grade >= 1.7):
+            self.performance -= 5
+        else:
+            self.performance -= 10
 
 user = Agent()
 user.start_scheduling()
