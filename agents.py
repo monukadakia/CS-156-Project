@@ -210,7 +210,7 @@ class Agent(object):
         elif(grade >= 1.7):
             self.performance -= 5
         else:
-            self.performance -= 10
+            self.performance -= 20
 
 user = Agent()
 user.start_scheduling()
