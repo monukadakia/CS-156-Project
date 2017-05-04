@@ -53,7 +53,7 @@ class Agent(object):
         self.taken = False
         self.user_input = None
         self.listOfClasses = None
-        self.classAvailableToTake = None
+        self.classAvailable = []
         self.kb = KB()
         self.difficultyLevel = 0
 
@@ -109,7 +109,7 @@ class Agent(object):
 
         print recommend
 
-        self.finalClass(self.classAvailable, grades)
+        #self.finalClass(self.classAvailable, grades)
 
         print "you entered", self.listOfClasses
         print "User has passed WST", self.taken
@@ -164,20 +164,27 @@ class Agent(object):
                 difficulty[cls] = 3
         return difficulty
 
+<<<<<<< HEAD
+    # def finalClasses(self, classAvailable, grades):
+    #     requirement = requirements.Classes()
+    #     if(len(classAvailable) <= 3)
+    #         return classAvailable
+    #     else   
+    #         for next_class in classAvailable:
+    #             clss = requirement[next_class].replace(" ", "").split(",")
+    #             for cls in clss:
+    #                 grade = grades[cls]
+=======
     def finalClasses(self, classAvailable, grades):
         requirement = requirements.Classes()
-        if(len(classAvailable) <= 3)
+        if(len(classAvailable) <= 3):
             return classAvailable
-        else   
+        else:
             for next_class in classAvailable:
                 clss = requirement[next_class].replace(" ", "").split(",")
                 for cls in clss:
                     grade = grades[cls]
-
-
-           
-
-
+>>>>>>> 3a3d905d5db69c597f83ec80d62d3c4a1c23b18d
 
 user = Agent()
 user.initial_question()
