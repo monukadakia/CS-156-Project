@@ -166,15 +166,15 @@ class Agent(object):
 
     def finalClasses(self, classAvailable, grades):
         requirement = requirements.Classes()
-        if(len(classAvailable) <= 3)
+        if(len(classAvailable) <= 3):
             return classAvailable
-        else   
+        else:
             for next_class in classAvailable:
                 clss = requirement[next_class].replace(" ", "").split(",")
                 for cls in clss:
                     grade = grades[cls]
 
-            
+
 
 
 
