@@ -66,15 +66,27 @@ class Agent(object):
         return final_schedule
 
     def askGrades(self, final_schedule):
+        CSGPA = 0
+        CSCT = 0
+        GECT = 0
+        GEGPA = 0
         file_data = self.getFileData()
         grade = None
+        requirement = requirements.Classes()
         for x in final_schedule:
             grade = raw_input(("What was your grade in %s: " %(x))).replace(" ", "").upper()
             if not("GE Class" in x):
+                CSGPA += requirement.grade[grade]
+                CSCT += 1
                 if(x in file_data):
                     file_data[x] += ("%s," % (grade))
                 else:
                     file_data[x] = ("%s," % (grade))
+            else:
+                GEGPA += requirement.grade[grade]
+                GECT += 1
+        print "CS GPA: ", CSGPA/CSCT
+        print "GE GPA: ", GEGPA/GECT
         self.addGradeToFile(file_data)
       
     def addGradeToFile(self,file_data):
@@ -111,6 +123,11 @@ class Agent(object):
             difficulty[cls] = total
         print difficulty
         return difficulty
+
+
+
+
+
 
 
 
