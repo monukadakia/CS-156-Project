@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CS46A:A,A-,A,A,A,A,A,B,F,C,C,C,C,C,A,A,A,A,
 CS46B:A-,A-,A,B,B,C,C,C,A-,A-,A,
 CS166:B,
@@ -27,3 +28,8 @@ CS151:B+,
 CS175:B+,
 CS174:A-,
 CS190:A,
+=======
+MATH30:A,A,A,A,
+MATH19:A,
+CS46A:B,B,B,A-,
+>>>>>>> 3a3d905d5db69c597f83ec80d62d3c4a1c23b18d

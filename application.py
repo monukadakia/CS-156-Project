@@ -164,6 +164,7 @@ class Agent(object):
                 difficulty[cls] = 3
         return difficulty
 
+<<<<<<< HEAD
     # def finalClasses(self, classAvailable, grades):
     #     requirement = requirements.Classes()
     #     if(len(classAvailable) <= 3)
@@ -173,10 +174,17 @@ class Agent(object):
     #             clss = requirement[next_class].replace(" ", "").split(",")
     #             for cls in clss:
     #                 grade = grades[cls]
-
-            
-
-
+=======
+    def finalClasses(self, classAvailable, grades):
+        requirement = requirements.Classes()
+        if(len(classAvailable) <= 3):
+            return classAvailable
+        else:
+            for next_class in classAvailable:
+                clss = requirement[next_class].replace(" ", "").split(",")
+                for cls in clss:
+                    grade = grades[cls]
+>>>>>>> 3a3d905d5db69c597f83ec80d62d3c4a1c23b18d
 
 user = Agent()
 user.initial_question()
