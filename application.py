@@ -175,6 +175,10 @@ class Agent(object):
                     grade = grades[cls]
 
 
+<<<<<<< HEAD
+=======
+           
+>>>>>>> aa5817ce6fd8f3d1f27c9473c6b5893b5e1427dc
 
 
 
