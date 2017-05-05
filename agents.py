@@ -83,14 +83,14 @@ class Agent(object):
                         self.ratio = (self.ratio[0],self.ratio[1]+1)
                     else:
                         self.ratio = (self.ratio[0]-1,self.ratio[1]+1)
+                elif(self.CSGPA <= 2.0 and self.GEGPA <= 2.0):
+                    print "Your GPA is too low. Please take a semester off."
                 elif(self.CSGPA < 3.3 and self.CSGPA < 3.3 and self.ratio[0] > 1 and self.ratio[1] > 1):
                     self.ratio = (self.ratio[0]-1,self.ratio[1]-1)
                 elif(self.CSGPA < 3.3 and self.ratio[0] > 1):
                     self.ratio = (self.ratio[0]-1,self.ratio[1])
                 elif(self.GEGPA < 3.3 and self.ratio[1] > 1):
                     self.ratio = (self.ratio[0],self.ratio[1]-1)
-                elif():
-                    print "Your GPA is too low. Please take a semester off."
             if(self.ratio[0] == len(self.classAvailable)):
                 self.final_schedule = self.classAvailable
             elif(self.ratio[0] > len(self.classAvailable)):
