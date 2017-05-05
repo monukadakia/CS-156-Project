@@ -1,6 +1,6 @@
 import sys
 import math
-
+import Graph
 import requirements
 import random
 
@@ -49,8 +49,8 @@ class Agent(object):
         self.user_pref = int(self.user_pref)
         if self.math_req == 'Y':
             self.kb.tell("MATH19")
-            self.final_schedule.append("MATH30") 
-            self.final_schedule.append("CS46A") 
+            self.final_schedule.append("MATH30")
+            self.final_schedule.append("CS46A")
             self.ratio = (2,self.user_pref-2)
         elif self.math_req == 'N':
             self.final_schedule.append("MATH19")
@@ -96,14 +96,17 @@ class Agent(object):
             elif(self.ratio[0] > len(self.classAvailable)):
                 self.ratio = (len(self.classAvailable),self.ratio[1]+1)
             else:
-                print "hello"
+                gph = Graph.Graph()
+                gph.create_weighted_graph(self.calculateDiff(self.getFileData()))
+                gph.print_graph()
+                self.final_schedule = gph.BFS(gph.g, "MATH19", self.classAvailable, self.ratio[0])
             self.add_GEs(self.final_schedule, self.ratio[0] + self.ratio[1])
             self.print_final_schedule(self.final_schedule)
             self.askGrades(self.final_schedule)
             self.calculateDiff(self.getFileData())
             print "Ratio ", self.ratio
 
-       
+
         for x in self.final_schedule:
             if("CS" in x or "MATH" in x):
                 self.kb.tell(x)
@@ -152,7 +155,7 @@ class Agent(object):
         if GECT > 0:
             self.GEGPA = self.GEGPA/GECT
         self.addGradeToFile(file_data)
-      
+
     def addGradeToFile(self,file_data):
         file_object = open("grade.txt", "w")
         for cls in file_data:
@@ -185,7 +188,6 @@ class Agent(object):
             if len(temp) > 0:
                 total = total / (len(temp))
             difficulty[cls] = total
-        print difficulty
         return difficulty
 
     def findClasses(self):
