@@ -47,70 +47,122 @@ class Agent(object):
         while not(self.user_pref == '4' or self.user_pref == '5'):
             self.user_pref = raw_input("How many classes do you want to take?(4/5) ").replace(" ", "").upper()
         self.user_pref = int(self.user_pref)
+
+
         if self.math_req == 'Y':
             self.kb.tell("MATH19")
-            self.final_schedule.append("MATH30")
-            self.final_schedule.append("CS46A")
             self.ratio = (2,self.user_pref-2)
-        elif self.math_req == 'N':
+            self.findClasses()
+        else:
             self.final_schedule.append("MATH19")
             self.ratio = (1,self.user_pref-1)
-        self.add_GEs(self.final_schedule, self.user_pref)
-        self.print_final_schedule(self.final_schedule)
-        self.askGrades(self.final_schedule)
-        self.calculateDiff(self.getFileData())
+
+
+
+
+        # if self.math_req == 'Y':
+        #     self.kb.tell("MATH19")
+        #     self.final_schedule.append("MATH30")
+        #     self.final_schedule.append("CS46A")
+        #     self.ratio = (2,self.user_pref-2)
+        # elif self.math_req == 'N':
+        #     self.final_schedule.append("MATH19")
+        #     self.ratio = (1,self.user_pref-1)
+        # self.add_GEs(self.final_schedule, self.user_pref)
+        # self.print_final_schedule(self.final_schedule)
+        # self.askGrades(self.final_schedule)
+        # self.calculateDiff(self.getFileData())
         while(True):
-            print self.kb.clauses
-            print "CSGPA", self.CSGPA
-            print "GEGPA", self.GEGPA
-            print "BRatio", self.ratio
-            self.quit = raw_input("Press q to quit or enter to continue: ").replace(" ", "").upper().strip()
-            if(self.quit == 'Q'):
-                break
-            else:
-                self.final_schedule = []
-                self.classAvailable = []
-                self.findClasses()
-                if(self.CSGPA >= 3.3 and self.GEGPA >= 3.3 and self.ratio[0] + self.ratio[1] < 5):
-                    self.ratio = random.choice([(self.ratio[0]+1,self.ratio[1]), (self.ratio[0],self.ratio[1]+1)])
-                elif(self.CSGPA >= 3.3 and self.ratio[0] < 4 and self.ratio[1] > 1 and self.GEGPA < 3.3):
-                    if(self.ratio[0] + self.ratio[1] < 5 and self.GEGPA >= 3.0):
-                        self.ratio = (self.ratio[0]+1,self.ratio[1])
+            print "final_schedule: ", self.final_schedule
+            if len(self.final_schedule) > 0:
+                if (self.ratio[0] > len(self.final_schedule)):
+                    gph = Graph.Graph()
+                    gph.create_weighted_graph(self.calculateDiff(self.getFileData()))
+                    if len(self.classAvailable) > self.ratio[0]-len(self.final_schedule):
+                        x = gph.BFS(gph.g, "MATH19", self.classAvailable, self.ratio[0]-len(self.final_schedule))
+                        for xs in x:
+                            self.final_schedule.append(xs)
+                    elif len(self.classAvailable) < self.ratio[0]-len(self.final_schedule):
+                        temp = len(self.final_schedule) + len(self.classAvailable)
+                        self.ratio = (temp, (self.ratio[0] + self.ratio[1]) - temp)
+                        for x in self.classAvailable:
+                            self.final_schedule.append(x)
                     else:
-                        self.ratio = (self.ratio[0]+1,self.ratio[1]-1)
-                elif(self.GEGPA >= 3.3 and self.ratio[1] < 4 and self.ratio[0] > 1 and self.CSGPA < 3.3):
-                    if(self.ratio[1] + self.ratio[0] < 5):
-                        self.ratio = (self.ratio[0],self.ratio[1]+1)
-                    else:
-                        self.ratio = (self.ratio[0]-1,self.ratio[1]+1)
-                elif(self.CSGPA < 3.3 and self.CSGPA < 3.3 and self.ratio[0] > 1 and self.ratio[1] > 1):
-                    self.ratio = (self.ratio[0]-1,self.ratio[1]-1)
-                elif(self.CSGPA < 3.3 and self.ratio[0] > 1):
-                    self.ratio = (self.ratio[0]-1,self.ratio[1])
-                elif(self.CSGPA < 3.3 and self.ratio[1] > 1):
-                    self.ratio = (self.ratio[0],self.ratio[1]-1)
-                else:
-                    print "Your GPA is too low. Please take a semester off."
-            if(self.ratio[0] == len(self.classAvailable)):
-                self.final_schedule = self.classAvailable
-            elif(self.ratio[0] > len(self.classAvailable)):
-                self.ratio = (len(self.classAvailable),self.ratio[1]+1)
-            else:
+                        for x in self.classAvailable:
+                            self.final_schedule.append(x)
+                elif self.ratio[0] < len(self.final_schedule):
+                    gph = Graph.Graph()
+                    gph.create_weighted_graph(self.calculateDiff(self.getFileData()))
+                    self.final_schedule = gph.BFS(gph.g, "MATH19", self.final_schedule, self.ratio[0])
+            elif(self.ratio[0] < len(self.classAvailable)):
                 gph = Graph.Graph()
                 gph.create_weighted_graph(self.calculateDiff(self.getFileData()))
-                gph.print_graph()
                 self.final_schedule = gph.BFS(gph.g, "MATH19", self.classAvailable, self.ratio[0])
-            self.add_GEs(self.final_schedule, self.ratio[0] + self.ratio[1])
+            elif self.ratio[0] == len(self.classAvailable):
+                self.final_schedule = self.classAvailable
+            print "Ratio ", self.ratio
+            self.add_GEs(self.final_schedule, self.user_pref)
             self.print_final_schedule(self.final_schedule)
             self.askGrades(self.final_schedule)
             self.calculateDiff(self.getFileData())
-            print "Ratio ", self.ratio
+            print "CSGPA", self.CSGPA
+            print "GEGPA", self.GEGPA
+            # print self.kb.clauses
+            # print "CSGPA", self.CSGPA
+            # print "GEGPA", self.GEGPA
+            # print "BRatio", self.ratio
+            # self.quit = raw_input("Press q to quit or enter to continue: ").replace(" ", "").upper().strip()
+            # if(self.quit == 'Q'):
+            #     break
+            #else:
+            #self.findClasses()
+            if(self.CSGPA >= 3.3 and self.GEGPA >= 3.3 and self.ratio[0] + self.ratio[1] < 5):
+                self.ratio = random.choice([(self.ratio[0]+1,self.ratio[1]), (self.ratio[0],self.ratio[1]+1)])
+            elif(self.CSGPA >= 3.3 and self.ratio[0] < 4 and self.ratio[1] > 1 and self.GEGPA < 3.3):
+                if(self.ratio[0] + self.ratio[1] < 5 and self.GEGPA >= 3.0):
+                    self.ratio = (self.ratio[0]+1,self.ratio[1])
+                else:
+                    self.ratio = (self.ratio[0]+1,self.ratio[1]-1)
+            elif(self.GEGPA >= 3.3 and self.ratio[1] < 4 and self.ratio[0] > 1 and self.CSGPA < 3.3):
+                if(self.ratio[1] + self.ratio[0] < 5):
+                    self.ratio = (self.ratio[0],self.ratio[1]+1)
+                else:
+                    self.ratio = (self.ratio[0]-1,self.ratio[1]+1)
+            elif(self.CSGPA <= 2.0 and self.GEGPA <= 2.0):
+                print "Your GPA is too low. Please take a semester off."
+            elif(self.CSGPA < 3.3 and self.CSGPA < 3.3 and self.ratio[0] > 1 and self.ratio[1] > 1):
+                self.ratio = (self.ratio[0]-1,self.ratio[1]-1)
+            elif(self.CSGPA < 3.3 and self.ratio[0] > 1):
+                self.ratio = (self.ratio[0]-1,self.ratio[1])
+            elif(self.GEGPA < 3.3 and self.ratio[1] > 1):
+                self.ratio = (self.ratio[0],self.ratio[1]-1)
 
-
-        for x in self.final_schedule:
-            if("CS" in x or "MATH" in x):
-                self.kb.tell(x)
-        print self.kb.clauses
+            if ("MATH19" in self.final_schedule):
+                self.final_schedule = []
+                self.final_schedule.append("CS46A")
+                self.final_schedule.append("MATH30")
+            elif len(self.classAvailable) > 0:
+                self.final_schedule = []
+                if self.ratio[0] == len(self.classAvailable):
+                    self.final_schedule = self.classAvailable
+                elif self.ratio[0] > len(self.classAvailable):
+                    self.final_schedule = self.classAvailable
+                    self.classAvailable = []
+                    self.findClasses()
+                    print "After updating: ", self.classAvailable
+                    for cls in self.classAvailable:
+                        if cls in self.final_schedule:
+                            self.classAvailable.remove(cls)
+            else:
+                self.final_schedule = []
+                self.findClasses()
+                if(self.ratio[0] == len(self.classAvailable)):
+                    self.final_schedule = self.classAvailable
+                elif(self.ratio[0] > len(self.classAvailable)):
+                    self.ratio = (len(self.classAvailable),self.ratio[1]+1)
+            self.quit = raw_input("Press q to quit or enter to continue: ").replace(" ", "").upper().strip()
+            if(self.quit == 'Q'):
+                break
 
     def print_final_schedule(self, final_schedule):
         counter = 1
@@ -133,12 +185,15 @@ class Agent(object):
         file_data = self.getFileData()
         grade = None
         requirement = requirements.Classes()
+        self.findClasses()
         for x in final_schedule:
             grade = raw_input(("What was your grade in %s: " %(x))).replace(" ", "").upper()
             while not(grade in requirement.grade):
                 grade = raw_input(("What was your grade in %s: " %(x))).replace(" ", "").upper()
             self.evalPerformance(requirement.grade[grade])
             if not("GE Class" in x):
+                if "MATH19" != x:
+                    self.classAvailable.remove(x)
                 self.CSGPA += requirement.grade[grade]
                 CSCT += 1
                 self.kb.tell(x)
@@ -200,9 +255,7 @@ class Agent(object):
                     b = False
                     break
             if b and not(cls in self.kb.clauses):
-                print "Next sem you can take:",cls
                 self.classAvailable.append(cls)
-        print self.classAvailable
 
     def evalPerformance(self, grade):
         if(grade >= 3.7):

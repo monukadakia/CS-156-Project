@@ -34,7 +34,6 @@ class Classes(object):
 			"CS174" : "CS46B",
 			"CS175" : "CS47",
 			"CS190" : "CS146",
-			"CS190I" : "CS146",
 			}
 
 	def grades(self):

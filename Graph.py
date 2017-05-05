@@ -54,21 +54,14 @@ class Graph(object):
             if cls not in visited:
                 visited.add(cls)
                 queue.extend(self.turn_dict_into_set(G[cls]) - visited)
-                print "The queue is: ", queue
                 for cls2 in queue:
-                    print "The cls2 is: ", cls2
-                    print "The class available are: ", classAvailable
                     if cls2 in classAvailable and len(classAvailable) > 0:
                         if len(self.listOfClasses) < num_of_cs_classes:
-                            print "The cls is: ", cls
                             if self.g.has_edge(cls, cls2):
-                                print "Came here \n"
                                 self.listOfClasses[cls2] = G[cls][cls2]['weight']
-                                print "THe list of Classes are: ", self.listOfClasses
                                 classAvailable.remove(cls2)
                         else:
                             sortedlists = sorted(self.listOfClasses.iterkeys(), key=lambda k: self.listOfClasses[k])
-                            print " The sorted list is: ",sortedlists
                             self.update_list_of_classes(sortedlists, cls, cls2)
                             classAvailable.remove(cls2)
 
@@ -100,16 +93,13 @@ class Graph(object):
 
 
     def update_list_of_classes(self, sortedlists, cls, cls2):
-            print "Came here \n"
             if self.g.has_edge(cls, cls2):
                 current_weight = self.g[cls][cls2]['weight']
                 for a_list in sortedlists:
                     temp_weight = self.listOfClasses[a_list]
-                    print "The temp weight is: ", temp_weight
                     if current_weight > temp_weight:
                         self.listOfClasses[cls2] = current_weight
                         del self.listOfClasses[a_list]
-                        print "The updated list is: ", self.listOfClasses
                         return
 
 
