@@ -266,6 +266,7 @@ class Agent(object):
             self.performance -= 5
         else:
             self.performance -= 20
+            
 
 user = Agent()
 user.start_scheduling()
