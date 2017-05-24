@@ -55,6 +55,7 @@ class Graph(object):
                 visited.add(cls)
                 queue.extend(self.turn_dict_into_set(G[cls]) - visited)
                 for cls2 in queue:
+                    #print "Degree of %s is %d" % (cls,self.g.degree(cls))
                     if cls2 in classAvailable and len(classAvailable) > 0:
                         if len(self.listOfClasses) < num_of_cs_classes:
                             if self.g.has_edge(cls, cls2):
@@ -70,18 +71,20 @@ class Graph(object):
                 self.final_schedule.append(every_class)
         return self.final_schedule
 
-    # def BFS_graduation(G, source, classAvailable, num_of_cs_classes):
-    #     major
-    #     visited = set()
-    #     queue = [source]
-    #     while queue:
-    #         cls = queue.pop(0):
-    #         visited.add(cls)
-    #         queue.extend(self.turn_dict_into_set(G[cls]) - visited)
-    #         for cls2 in queue:
-    #             if cls2 in classAvailable and len(classAvailable) > 0:
-    #                 pass
+    def BFS_graduation(G, source, classAvailable, num_of_cs_classes):
+        
+        degree = {}
+        visited = set()
+        queue = [source]
 
+        while queue:
+           cls = queue.pop(0):
+           visited.add(cls)
+           queue.extend(self.turn_dict_into_set(G[cls]) - visited)
+
+           for cls2 in queue:
+                if cls2 in classAvailable and len(classAvailable) > 0:
+                    degree[cls] = self.g.degree(cls2)
     """
     Turn a dict type object into a set.
     """
