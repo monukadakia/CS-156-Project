@@ -52,9 +52,9 @@ class gpaAgent(object):
         else:
             self.final_schedule.append("MATH19")
             self.ratio = (1,self.user_pref-1)
+            self.csCounter = 25
 
         while(True):
-            print "Classes Available: ",self.classAvailable
             if len(self.final_schedule) > 0:    #Checks to see if final_schedule has classes in it
                 if (self.ratio[0] > len(self.final_schedule)):      #if  cs ratio is greater than list of final schedule
                     gph = Graph.Graph()     #create the graph
@@ -91,9 +91,9 @@ class gpaAgent(object):
             self.print_final_schedule(self.final_schedule)
             self.askGrades(self.final_schedule)
             self.calculateDiff(self.getFileData())
-            print "CS left: ",self.csCounter
-            print "GE left: ",self.geCounter
-            print "KIN left: ",self.kinCounter
+
+            if(self.ratio[0] + self.ratio[1] == 6):
+                self.ratio = (self.ratio[0], self.ratio[1]-1)
             if(self.csCounter <= 0 and self.geCounter <= 0 and self.kinCounter <= 0):
                 print "CONGRATULATIONS!!! You have graduated :)"
                 break
@@ -127,7 +127,7 @@ class gpaAgent(object):
                     self.ratio = (self.ratio[0]-1,self.ratio[1]+1)
             elif(self.CSGPA <= 2.0 and self.GEGPA <= 2.0):
                 print "Your GPA is too low. Please take a semester off."
-            elif(self.CSGPA < 3.3 and self.CSGPA < 3.3 and self.ratio[0] > 1 and self.ratio[1] > 1):
+            elif(self.CSGPA < 3.3 and self.GEGPA < 3.3 and self.ratio[0] > 1 and self.ratio[1] > 1):
                 self.ratio = (self.ratio[0]-1,self.ratio[1]-1)
             elif(self.CSGPA < 3.3 and self.ratio[0] > 1):
                 self.ratio = (self.ratio[0]-1,self.ratio[1])
@@ -157,12 +157,14 @@ class gpaAgent(object):
                 self.final_schedule = []
                 self.findClasses()
                 if(self.ratio[0] == len(self.classAvailable)):
-                    self.final_schedule = self.classAvailable
+                    for x in self.classAvailable:       #for all the classes in classes available
+                        if not x in self.final_schedule:        #if the class is not in final_schedule
+                            self.final_schedule.append(x)       #then append it
                 elif(self.ratio[0] > len(self.classAvailable)):
                     totalClasses = self.ratio[0] + self.ratio[1]
                     self.ratio = (len(self.classAvailable), totalClasses - len(self.classAvailable))
 
-            print "Ratio is",self.ratio
+
 
             if self.csCounter < self.ratio[0] and self.geCounter < self.ratio[1]:
                 self.ratio = (self.csCounter, self.geCounter)
@@ -177,6 +179,9 @@ class gpaAgent(object):
                 else:
                     self.ratio = (self.csCounter, self.geCounter)
             self.quit = raw_input("Press q to quit or enter to continue: ").replace(" ", "").upper().strip()
+            if self.kinCounter > 0:
+                self.user_pref += 1
+                self.ratio = (self.ratio[0], self.ratio[1]+1)
             if(self.quit == 'Q'):
                 break
 

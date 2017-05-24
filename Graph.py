@@ -71,20 +71,31 @@ class Graph(object):
                 self.final_schedule.append(every_class)
         return self.final_schedule
 
-    def BFS_graduation(G, source, classAvailable, num_of_cs_classes):
-        
-        degree = {}
+    def BFS_graduation(self, G, source, classAvailable, num_of_cs_classes):
+
+        graduation_classes = {}
         visited = set()
         queue = [source]
 
         while queue:
-           cls = queue.pop(0):
+           cls = queue.pop(0)
            visited.add(cls)
            queue.extend(self.turn_dict_into_set(G[cls]) - visited)
 
            for cls2 in queue:
                 if cls2 in classAvailable and len(classAvailable) > 0:
-                    degree[cls] = self.g.degree(cls2)
+                    if len(graduation_classes) < num_of_cs_classes:
+                        graduation_classes[cls2] = self.g.degree(cls2)
+                        classAvailable.remove(cls2)
+                    else:
+                        sortedlists = sorted(graduation_classes.iterkeys(), key=lambda k: graduation_classes[k])
+                        self.update_list_of_classes_grad(graduation_classes, sortedlists, cls2)
+                        classAvailable.remove(cls2)
+        final = []
+
+        for every_class in list(graduation_classes):
+                final.append(every_class)
+        return final
     """
     Turn a dict type object into a set.
     """
@@ -117,7 +128,14 @@ class Graph(object):
                         del self.listOfClasses[a_list]
                         return
 
-
+    def update_list_of_classes_grad(self, graduation_classes, sortedlists, cls2):
+                current_degree = self.g.degree(cls2)
+                for a_list in sortedlists:
+                    temp_degree = self.g.degree(a_list)
+                    if current_degree > temp_degree:
+                        graduation_classes[cls2] = current_degree
+                        del graduation_classes[a_list]
+                        return
 
     # data = {1: 'b', 2: 'a'}
     # d = OrderedDict(sorted(data.items(), key=itemgetter(1), reverse=True))

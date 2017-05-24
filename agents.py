@@ -48,15 +48,8 @@ class Agent(object):
         if(user_input == "A"):
             gpaAgent.gpaAgent(self.user_pref, self.math_req)
         else:
-            self.gradGoal = raw_input("How many years do you want to graduate in?: ").replace(" ", "").upper()
-            while not(self.gradGoal.isdigit()):
-                self.gradGoal = raw_input("How many years do you want to graduate in? Please enter a number: ").replace(" ", "").upper()
-
-
-            if(self.gradGoal >= 3):
-                if(self.gradGoal < 4):
-                    print "WARNING!!! YOU WILL HAVE TO TAKE SUMMER/WINTER COURSES, AND MAY BE UPTO 16 UNIT IN A SEMESTER"
-
+            print "WARNING!!! YOU WILL HAVE TO TAKE SUMMER/WINTER COURSES, AND MAY BE UPTO 16 UNIT IN A SEMESTER"
+            gradAgent.gradAgent(self.user_pref, self.math_req)
 
 
 
