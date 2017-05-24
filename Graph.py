@@ -66,9 +66,21 @@ class Graph(object):
                             classAvailable.remove(cls2)
 
         for every_class in list(self.listOfClasses):
-            self.final_schedule.append(every_class)
+            if not every_class in self.final_schedule:
+                self.final_schedule.append(every_class)
         return self.final_schedule
 
+    # def BFS_graduation(G, source, classAvailable, num_of_cs_classes):
+    #     major
+    #     visited = set()
+    #     queue = [source]
+    #     while queue:
+    #         cls = queue.pop(0):
+    #         visited.add(cls)
+    #         queue.extend(self.turn_dict_into_set(G[cls]) - visited)
+    #         for cls2 in queue:
+    #             if cls2 in classAvailable and len(classAvailable) > 0:
+    #                 pass
 
     """
     Turn a dict type object into a set.

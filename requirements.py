@@ -20,7 +20,7 @@ class Classes(object):
         	"CS146" : "MATH30, MATH42, CS46B",
         	"CS147" : "CS47",
         	"CS149" : "CS146",
-        	"CS151" : "MATH42, CS46B, CS49J",
+        	"CS151" : "MATH42, CS46B",
         	"CS152" : "CS151",
         	"CS154" : "MATH42, CS46B",
         	"CS160" : "CS146, CS151, CS100W",
@@ -28,12 +28,11 @@ class Classes(object):
 			"CS157A" : "CS146",
 			"CS157B" : "CS157A",
 			"CS158A" : "CS146, CS147",
-			"CS158B" : "CS158A",
-			"CS161" : "CS160",
 			"CS166" : "CS146, CS47",
 			"CS174" : "CS46B",
-			"CS175" : "CS47",
 			"CS190" : "CS146",
+			"CS100W": "CS146",
+			"PHIL134": "CS100W"
 			}
 
 	def grades(self):
